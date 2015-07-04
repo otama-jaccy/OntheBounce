@@ -1,0 +1,17 @@
+{
+  "name": "Onthebounce",
+  "version": "0.0.1",
+  "description": "音theBounceのサーバーサイドアプリケーション",
+  "main": "index.js",
+  "author": "ProgrammingLab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ProgrammingLab/OntheBounce"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "^1.9.3",
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1"
+  }
+}
