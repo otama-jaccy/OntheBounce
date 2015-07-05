@@ -5,6 +5,10 @@ server = net.createServer()
 
 server.on 'connection', (socket) ->
   console.log 'Connection Start'
+  socket.on 'data', (chunk) ->
+    console.log chunk.toString()
+  socket.on 'end', ->
+    console.log 'Connection closed'
 
 server.on 'close', ->
   console.log 'Server Closed'
