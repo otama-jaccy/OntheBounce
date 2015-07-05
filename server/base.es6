@@ -1,64 +1,92 @@
-class Base
-  constructor: (@socket) ->
-    @$parent = null
-    @$children = []
-    @_events = []
+class Base {
+  constructor(socket) {
+    this.socket = null;
+    this.$parent = null;
+    this.$children = [];
+    this._events = [];
 
-    if @socket
-      @socket.on 'connect', @$socketConnect.bind(this)
-      @socket.on 'data', @$socketData.bind(this)
-      @socket.on 'timeout', @$socketTimeout.bind(this)
-      @socket.on 'end', @$socketEnd.bind(this)
-      @socket.on 'error', @$socketError.bind(this)
+    if (socket) {
+      this.socket = socket;
+      this.socket.on('connect', this.$socketConnect.bind(this));
+      this.socket.on('data', this.$socketData.bind(this));
+      this.socket.on('timeout', this.$socketTimeout.bind(this));
+      this.socket.on('end', this.$socketEnd.bind(this));
+      this.socket.on('error', this.$socketError.bind(this));
+    }
+  }
 
+  $on(event, fn) {
+    (this._events[event] || (this._events[event] = [])).push(fn);
+    return this;
+  }
 
+  $off(event, fn) {
+    if (!arguments.length) {
+      this._events = [];
+      return this;
+    }
+    if (arguments.length == 1) {
+      this._events[event] = null;
+      return this;
+    }
 
-  $on: (event, fn) ->
-    (@_events[event] || (@_events[event] = [])).push(fn)
-    return this
+    var events = this._events[event];
+    for (var i = 0; i < events.length; i++) {
+      if (events[i] === fn || events[i].fn === fn) {
+        events.splice(i, 1);
+        break;
+      }
+    }
+    return this;
+  }
 
-  $off: (event, fn) ->
-    if !arguments.length
-      @_events = {}
-      return this
+  $emit(event) {
+    var events = this._events[event];
+    if (events) {
+      var args = Array.prototype.slice.call(arguments, 1);
+      for (var i = 0; i < events.length; i++) {
+        events[i].apply(this, args);
+      }
+    }
+    return this;
+  }
 
-    if arguments.length == 1
-      @_events[event] = null
-      return this
+  $broadcast(event) {
+    if (!this._events[event].length) return this;
+    var children = this.$children;
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i],
+          args  = Array.prototype.slice.call(arguments);
+      child.$emit.apply(child, args);
+      child.$broadcast.apply(child, args);
+    }
+    return this;
+  }
 
-    events = @_events[event]
-    for event, i in events
-      if event == fn || event.fn == fn
-        events.splice(i, 1)
-        break
-    return this
+  $dispatch() {
+    var parent = this.$parent;
+    while (parent) {
+      var args = Array.prototype.slice.call(arguments);
+      parent.$emit.apply(parent, args);
+      parent = parent.$parent;
+    }
+    return this;
+  }
 
-  $emit: (event) ->
-    events = @_events[event]
-    if events
-      args = Array.prototype.slice.call(arguments, 1)
-      for event in events
-        event.apply(this, args)
-    return this
+  $socketConnect() {
+  }
 
-  $broadcast: (event) ->
-    for child in @$children
-      child.$emit.apply(child, arguments)
-      child.$broadcast.apply(child, arguments)
-    return this
+  $socketData() {
+  }
 
-  $dispatch: ->
-    parent = @$parent
-    while(parent)
-      parent.$emit.apply(parent, arguments)
-      parent = parent.$parent
-    return this
+  $socketTimeout() {
+  }
 
-  $socketConnect: ->
-  $socketData: (_) ->
-  $socketTimeout: ->
-  $socketEnd: ->
-  $socketError: (_) ->
+  $socketEnd() {
+  }
 
-module.exports = Base
+  $socketError() {
+  }
+}
 
+module.exports = Base;

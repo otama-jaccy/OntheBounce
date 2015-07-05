@@ -1,36 +1,46 @@
-net = require 'net'
-readline = require 'readline'
+var net = require('net');
+var readline = require('readline');
 
-options =
-  host: '127.0.0.1'
+var options = {
+  host: '127.0.0.1',
   port: 8080
+};
 
-client = net.connect(options)
+var client = net.connect(options);
 
-client.on 'error', (e) ->
-  console.log "Connectionn Failed - #{options.host}:#{options.port}"
-  console.error e.message
+client.on('error', function (e) {
+  console.log(`Connection Failed - ${options.host}:${options.port}`);
+  console.error(e.message);
+});
 
-client.on 'connect', ->
-  console.log "Connected - #{options.host}:#{options.port}"
+client.on('connect', function () {
+  console.log(`Connected - ${options.host}:${options.port}`);
+});
 
-rl = readline.createInterface process.stdin, process.stdout
+var rl = readline.createInterface(process.stdin, process.stdout);
 
-rl.on 'line', (cmd) ->
-  console.log "You just typed: #{cmd}"
-  client.write(cmd)
+rl.on('line', function (cmd) {
+  console.log(`You just typed: ${cmd}`);
+  client.write(cmd);
+});
 
-rl.on 'SIGINT', ->
-  console.log "Connection Closed - #{options.host}:#{options.port}"
-  client.end()
-  rl.close()
 
-client.on 'data', (chunk) ->
+rl.on('SIGINT', function () {
+  console.log(`Connection Closed - ${options.host}:${options.port}`);
+  client.end();
+  rl.close();
+});
+
+client.on('data', function (chunk) {
   process.stdout.write(chunk.toString())
+});
 
-client.on 'end', (had_error) ->
-  console.log "Connection End - #{options.host}:#{options.port}"
+client.on('end', function (had_error) {
+  console.log(`Connection End - ${options.host}:${options.port}`);
+});
 
-client.on 'close', ->
-  console.log 'Client Closed'
+client.on('close', function () {
+  console.log('Client Closed');
   rl.close()
+});
+

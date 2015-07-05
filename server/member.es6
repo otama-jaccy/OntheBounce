@@ -1,7 +1,9 @@
-Base = require './base'
+var Base = require('./base');
 
-class Member extends Base
-  constructor: (@socket) ->
-    super
+class Member extends Base {
+  constructor(socket) {
+    super(socket);
+  }
+}
 
-module.exports = Member
+module.exports = Member;
