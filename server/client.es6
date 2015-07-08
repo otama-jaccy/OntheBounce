@@ -1,4 +1,4 @@
-var net = require('net');
+var dgram = require('dgram');
 var readline = require('readline');
 
 var options = {
@@ -6,41 +6,18 @@ var options = {
   port: 8080
 };
 
-var client = net.connect(options);
-
-client.on('error', function (e) {
-  console.log(`Connection Failed - ${options.host}:${options.port}`);
-  console.error(e.message);
-});
-
-client.on('connect', function () {
-  console.log(`Connected - ${options.host}:${options.port}`);
-});
+var client = dgram.createSocket('udp4');
 
 var rl = readline.createInterface(process.stdin, process.stdout);
 
 rl.on('line', function (cmd) {
   console.log(`You just typed: ${cmd}`);
-  client.write(cmd);
+  client.send(cmd, 0, cmd.length, options.port, options.host);
 });
 
 
 rl.on('SIGINT', function () {
   console.log(`Connection Closed - ${options.host}:${options.port}`);
-  client.end();
+  client.close();
   rl.close();
 });
-
-client.on('data', function (chunk) {
-  process.stdout.write(chunk.toString())
-});
-
-client.on('end', function (had_error) {
-  console.log(`Connection End - ${options.host}:${options.port}`);
-});
-
-client.on('close', function () {
-  console.log('Client Closed');
-  rl.close()
-});
-

@@ -1,26 +1,28 @@
-var net = require('net');
+var dgram = require('dgram');
 var readline = require('readline');
 
-var server = net.createServer();
+var server = dgram.createSocket('udp4');
 
-server.on('connection', function (socket) {
-  console.log('Connection Start');
-  socket.on('data', function (chunk) {
-    console.log(chunk.toString());
-  });
-  socket.on('end', function () {
-    console.log('Connection closed');
-  });
+server.on('message', function(msg, rinfo) {
+  console.log(msg.toString());
+  console.log("%s:%d\n", rinfo.address, rinfo.port);
+});
+
+server.on('error', function(err) {
+  console.log("server error:\n" + err.stack);
+  server.close();
 });
 
 server.on('close', function () {
   console.log('Server Closed');
 });
 
-server.listen(8080, '127.0.0.1', function () {
+server.on('listening', function() {
   var addr = server.address();
   console.log(`Listening Start on Server - ${addr.address}:${addr.port}`)
 });
+
+server.bind(8080, '127.0.0.1');
 
 var rl = readline.createInterface(process.stdin, process.stdout);
 
