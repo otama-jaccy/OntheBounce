@@ -4,7 +4,6 @@ import com.kurume_nct.onthebounce.api.UDPPost;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.Vector;
 
 /**
  * Created by minto on 2015/07/19.
@@ -37,7 +36,7 @@ public class ServerPost extends Thread implements Model{
     */
     public void send(){
         if(!this.isAlive() && !this.messages.isEmpty()) {
-            this.run();
+            this.start();
         }
     }
 
