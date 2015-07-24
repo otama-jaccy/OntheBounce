@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
  */
 public class UDPPost {
     InetAddress host;
-    int port;
+    final int port;
 
     public UDPPost(String ip,int port){
         try{
