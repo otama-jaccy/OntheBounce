@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">OntheBounce</string>
 
+    <string name="create_room">部屋を作成</string>
+    <string name="setting">設定</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_room">RoomActivity</string>

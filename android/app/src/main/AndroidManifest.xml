@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.kurume_nct.onthebounce.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,19 +18,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.RoomActivity"
+            android:name="com.kurume_nct.onthebounce.activity.RoomActivity"
             android:label="@string/title_activity_room" >
         </activity>
         <activity
-            android:name=".activity.GameActivity"
+            android:name="com.kurume_nct.onthebounce.activity.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>
         <activity
-            android:name=".activity.ResultActivity"
+            android:name="com.kurume_nct.onthebounce.activity.ResultActivity"
             android:label="@string/title_activity_result" >
         </activity>
         <activity
-            android:name=".activity.SettingActivity"
+            android:name="com.kurume_nct.onthebounce.activity.SettingActivity"
             android:label="@string/title_activity_setting" >
         </activity>
     </application>

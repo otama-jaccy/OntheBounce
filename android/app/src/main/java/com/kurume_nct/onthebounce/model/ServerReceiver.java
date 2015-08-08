@@ -1,5 +1,7 @@
 package com.kurume_nct.onthebounce.model;
 
+import android.util.Log;
+
 import com.kurume_nct.onthebounce.api.UDPReceiver;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 
@@ -17,8 +19,12 @@ public class ServerReceiver extends Thread implements Model{
     static private ServerReceiver server = new ServerReceiver();
 
     private ServerReceiver(){
-        receiver = new UDPReceiver(114514);
-        this.start();
+        try {
+            receiver = new UDPReceiver(114514);
+            this.start();
+        }catch(java.net.SocketException e){
+            Log.d("ERROR", e.toString());
+        }
     }
 
     public ServerReceiver getInstance(){

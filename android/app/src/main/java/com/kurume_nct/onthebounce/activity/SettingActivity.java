@@ -7,7 +7,6 @@ import android.view.MenuItem;
 
 import com.kurume_nct.onthebounce.R;
 
-
 public class SettingActivity extends ActionBarActivity {
 
     @Override
