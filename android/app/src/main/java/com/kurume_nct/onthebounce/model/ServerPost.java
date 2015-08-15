@@ -8,25 +8,14 @@ import java.util.Queue;
 /**
  * Created by minto on 2015/07/19.
  */
-public class ServerPost extends Thread implements Model{
+public class ServerPost extends PostAbstract implements Model{
     static private ServerPost udp_server = new ServerPost();
 
 
     UDPPost post;
 
-    //text sending to server
-    private Queue<String> messages;
-
-    private ServerPost(){
-        messages = new ArrayDeque<>();
-    }
-
     static public ServerPost getInstance(){
         return udp_server;
-    }
-
-    public void addMessage(String message){
-        this.messages.add(message);
     }
 
     /**
@@ -41,7 +30,9 @@ public class ServerPost extends Thread implements Model{
     }
 
     public void run(){
-        String message = this.messages.poll();
-        post.sendMessage(message);
+        while(!messages.isEmpty()) {
+            String message = this.messages.poll();
+            post.sendMessage(message);
+        }
     }
 }
