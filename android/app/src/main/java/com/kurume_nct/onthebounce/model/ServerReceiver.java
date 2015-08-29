@@ -12,8 +12,7 @@ import javax.security.auth.callback.Callback;
 /**
  * Created by minto on 2015/07/24.
  */
-public class ServerReceiver extends Thread implements Model{
-    private HashMap<String, MessageCallback> callbacks;
+public class ServerReceiver extends ReceiverAbstract implements Model{
     private UDPReceiver receiver;
 
     static private ServerReceiver server = new ServerReceiver();
@@ -31,14 +30,10 @@ public class ServerReceiver extends Thread implements Model{
         return server;
     }
 
-    public void addCallBack(String key, MessageCallback call_back) {
-        this.callbacks.put(key, call_back);
-    }
-
-    public void removeCallBack(String key){
-        this.callbacks.remove(key);
-    }
-
+    /**
+     * サーバーからデータを受信したら、
+     * callBacksに登録されているクラスにメッセージを送る
+     */
     public void run(){
         while(true){
             String message = receiver.recieve();
