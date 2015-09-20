@@ -1,6 +1,7 @@
 package com.kurume_nct.onthebounce.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 import com.physicaloid.lib.Physicaloid;
@@ -13,22 +14,18 @@ import javax.security.auth.callback.Callback;
  * Created by minto on 2015/08/16.
  */
 public class ArduinoCommunicator extends Thread{
-    private ArduinoCommunicator arduino_communicator = new ArduinoCommunicator();
-    private HashMap<String, MessageCallback> callbacks;
+    private HashMap<String, MessageCallback> callbacks = new HashMap<String, MessageCallback>();
     private boolean is_sending;
     private Context context;
 
-    private ArduinoCommunicator(){
+    public ArduinoCommunicator(Context context){
         is_sending = false;
+        this.context = context;
         this.start();
     }
 
     public void setContext(Context context){
         this.context = context;
-    }
-
-    public ArduinoCommunicator getInstance(){
-        return this.arduino_communicator;
     }
 
     public void send(String message){
@@ -48,17 +45,21 @@ public class ArduinoCommunicator extends Thread{
 
     public void run(){
         while(true) {
-            if (is_sending){
+            if (is_sending) {
                 continue;
             }
 
+
             Physicaloid physicaloid = new Physicaloid(this.context);
+            physicaloid.write("hoge".getBytes(), "hoge".getBytes().length);
             if(physicaloid.open()) {
+                callbacks.get("main").comeMessage("physicaloid");
                 byte[] buf = new byte[256];
 
                 physicaloid.read(buf, buf.length);
                 String message = new String(buf);
                 physicaloid.close();
+                Log.d("DEBUG", message);
                 for(String key: callbacks.keySet()){
                     callbacks.get(key).comeMessage(message);
                 }

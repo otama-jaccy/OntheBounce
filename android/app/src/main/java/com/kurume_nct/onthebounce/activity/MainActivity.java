@@ -2,16 +2,29 @@ package com.kurume_nct.onthebounce.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.kurume_nct.onthebounce.R;
+import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity {
+import com.kurume_nct.onthebounce.R;
+import com.kurume_nct.onthebounce.model.ArduinoCommunicator;
+import com.kurume_nct.onthebounce.utility.MessageCallback;
+
+public class MainActivity extends ActionBarActivity implements MessageCallback{
+    public void comeMessage(String message){
+        TextView t = (TextView)findViewById(R.id.debug);
+        t.setText(message);
+        Log.d("DEBUG", message);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ArduinoCommunicator ard = new ArduinoCommunicator(this);
+        ard.addCallBack("main", this);
+
     }
 
     @Override

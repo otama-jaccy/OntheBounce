@@ -21,6 +21,13 @@
             android:layout_height="60dp"
             android:id="@+id/edit_setting_button"
             android:text="@string/setting"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:id="@+id/debug"
+            android:text="debuggggg"
+            />
     </LinearLayout>
 
 </RelativeLayout>
