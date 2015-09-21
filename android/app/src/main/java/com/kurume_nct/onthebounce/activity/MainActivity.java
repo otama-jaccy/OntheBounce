@@ -1,10 +1,14 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.content.Context;
+import android.hardware.usb.UsbManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.kurume_nct.onthebounce.R;
@@ -18,13 +22,21 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
         Log.d("DEBUG", message);
     }
 
+    ArduinoCommunicator ard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ArduinoCommunicator ard = new ArduinoCommunicator(this);
-        ard.addCallBack("main", this);
+        ard = new ArduinoCommunicator((UsbManager) getSystemService(Context.USB_SERVICE), this, this);
 
+        Button button = (Button)findViewById(R.id.create_room_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ard.start();
+            }
+        });
     }
 
     @Override
