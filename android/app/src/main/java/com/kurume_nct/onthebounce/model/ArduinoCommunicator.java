@@ -28,54 +28,45 @@ public class ArduinoCommunicator extends Thread{
     UsbSerialDriver driver;
     MessageCallback callback;
     Context context;
+    UsbDeviceConnection connection;
     public ArduinoCommunicator(UsbManager manager, MessageCallback messageCallback, Context context){
-        if(manager==null){
-            //return;
-        }
-
-        Log.d("DEBUG", ""+manager);
         this.manager = manager;
         this.callback = messageCallback;
         this.context = context;
+    }
 
-        callback.comeMessage("hogehoge");
-
+    private UsbSerialDriver getDriver(){
         List<UsbSerialDriver> drivers = UsbSerialProber.getDefaultProber().findAllDrivers(this.manager);
         if(drivers.isEmpty()){
-            Log.d("DEBUG", "drivers is empty");
-            return;
+            return null;
+        }
+        return drivers.get(0);
+    }
+
+    //permissionéÊìæÇçsÇ¡ÇΩÇÁtrueÇï‘Ç∑
+    public boolean requestPermission(){
+        UsbSerialDriver driver = this.getDriver();
+        if(driver==null){
+            return false;
         }
 
-        callback.comeMessage("start");
-        this.driver = drivers.get(0);
-        UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
-        UsbSerialPort port = driver.getPorts().get(0);
-        if(connection==null){
-            manager.requestPermission(this.driver.getDevice(), PendingIntent.getBroadcast(this.context, 0, new Intent("com.android.example.USB_PERMISSION"), 0));
-            callback.comeMessage(this.driver.getDevice().toString());
-            connection = manager.openDevice(driver.getDevice());
-        }
+        Intent intent = new Intent("com.android.example.USB_PERMISSION");
+        PendingIntent pending_intent =  PendingIntent.getBroadcast(this.context, 0, intent, 0);
+        this.manager.requestPermission(this.driver.getDevice(), pending_intent);
+        return true;
     }
 
     public void run(){
-        callback.comeMessage("hogehoge");
-
-        List<UsbSerialDriver> drivers = UsbSerialProber.getDefaultProber().findAllDrivers(this.manager);
-        if(drivers.isEmpty()){
-            Log.d("DEBUG", "drivers is empty");
+        if(this.driver == null) {
+            this.driver = getDriver();
+        }
+        if(!this.manager.hasPermission(this.driver.getDevice())){
+            Log.d("DEBUG", "requestPermission");
+            requestPermission();
             return;
         }
-
-        callback.comeMessage("start");
-        this.driver = drivers.get(0);
-        UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
+        connection = manager.openDevice(driver.getDevice());
         UsbSerialPort port = driver.getPorts().get(0);
-        if(connection==null){
-            manager.requestPermission(this.driver.getDevice(), PendingIntent.getBroadcast(this.context, 0, new Intent("com.android.example.USB_PERMISSION"), 0));
-            callback.comeMessage(this.driver.getDevice().toString());
-            connection = manager.openDevice(driver.getDevice());
-            return;
-        }
 
         try {
             port.open(connection);
@@ -83,24 +74,24 @@ public class ArduinoCommunicator extends Thread{
             Log.e("ERROR", e.toString());
             return;
         }catch (Exception e){
-            callback.comeMessage(e.toString());
+            Log.e("ERROR", e.toString());
         }
+        Log.d("DEBUG", "start reading");
 
-        callback.comeMessage("egaega");
-        while(true){
-            byte buffer[] = new byte[256];
+        //while(true){
+            byte buffer[] = new byte[16];
             int num = 0;
             try {
                 num = port.read(buffer, 1000);
             }catch (IOException e){
                 Log.e("ERROR", e.toString());
                 callback.comeMessage("ERROR");
-                continue;
+                Log.d("DEBUG", "IOException:"+e.toString());
+                //continue;
+                return;
             }
             Log.d("DEBUG", new String(buffer, 0, num));
             callback.comeMessage(new String(buffer, 0, num));
-        }
-
-
+        //}
     }
 }
