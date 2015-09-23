@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.kurume_nct.onthebounce.R;
+import com.kurume_nct.onthebounce.api.UDPPost;
 import com.kurume_nct.onthebounce.model.ArduinoCommunicator;
+import com.kurume_nct.onthebounce.model.ServerPost;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 
 public class MainActivity extends ActionBarActivity implements MessageCallback{
@@ -52,6 +54,10 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
         join_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                /*ServerPost post = ServerPost.getInstance();
+                post.setUDPPost("191.233.35.210", 8080);
+                post.addMessage("hogehogehogehoge");
+                post.send();*/
                 Intent intent = new Intent(MainActivity.this, JoinActivity.class);
                 startActivity(intent);
             }

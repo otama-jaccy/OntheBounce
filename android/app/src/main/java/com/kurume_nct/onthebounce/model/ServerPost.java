@@ -11,8 +11,11 @@ import java.util.Queue;
 public class ServerPost extends PostAbstract implements Model{
     static private ServerPost udp_server = new ServerPost();
 
-
     UDPPost post;
+
+    public void setUDPPost(String ip, int port){
+        post = new UDPPost(ip, port);
+    }
 
     static public ServerPost getInstance(){
         return udp_server;

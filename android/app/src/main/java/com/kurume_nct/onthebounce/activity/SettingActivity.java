@@ -15,9 +15,9 @@ import android.widget.EditText;
 
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.utility.DialogCreater;
+import com.kurume_nct.onthebounce.fragment.ConnectGun;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+
 
 public class SettingActivity extends ActionBarActivity {
     final String IP_ADDRESS = "IP_ADDRESS";

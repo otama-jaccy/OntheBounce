@@ -6,7 +6,12 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.kurume_nct.onthebounce.activity.JoinActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/connect_gun"
+        android:name="com.kurume_nct.onthebounce.fragment.ConnectGun"
+        tools:layout="@layout/fragment_connect_gun"
+        />
 
 </RelativeLayout>
