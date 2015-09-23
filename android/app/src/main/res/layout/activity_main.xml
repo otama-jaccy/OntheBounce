@@ -19,6 +19,13 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="60dp"
+            android:id="@+id/join_room_button"
+            android:text="ゲームに参加"
+            />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
             android:id="@+id/edit_setting_button"
             android:text="@string/setting"/>
 

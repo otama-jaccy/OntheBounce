@@ -1,5 +1,6 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbManager;
@@ -46,11 +47,24 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
                 startActivity(intent);
             }
         });
-    }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
+        Button join_button = (Button)findViewById(R.id.join_room_button);
+        join_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this, JoinActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button setting_button = (Button)findViewById(R.id.edit_setting_button);
+        setting_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
