@@ -10,6 +10,9 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+    tasks.withType(org.gradle.api.tasks.compile.JavaCompile){
+        options.encoding = 'UTF-8'
+    }
 }
 
 allprojects {

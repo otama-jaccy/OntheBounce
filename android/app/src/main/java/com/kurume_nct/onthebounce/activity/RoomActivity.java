@@ -1,18 +1,31 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kurume_nct.onthebounce.R;
+import com.kurume_nct.onthebounce.fragment.CounterFragment;
 
 public class RoomActivity extends ActionBarActivity {
+    CounterFragment round_counter_fragment;
+    CounterFragment hp_counter_fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+        //Fragment‚Ì‰Šúİ’è
+        FragmentManager manager = getSupportFragmentManager();
+        this.round_counter_fragment = (CounterFragment)manager.findFragmentById(R.id.round_counter);
+        this.round_counter_fragment.setValue("ROUND", 5);
+        this.hp_counter_fragment = (CounterFragment)manager.findFragmentById(R.id.hp_counter);
+        this.hp_counter_fragment.setValue("HP", 10);
+
     }
 
     @Override
