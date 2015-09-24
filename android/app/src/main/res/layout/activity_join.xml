@@ -1,9 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.kurume_nct.onthebounce.activity.JoinActivity">
 
     <fragment
@@ -14,4 +15,11 @@
         tools:layout="@layout/fragment_connect_gun"
         />
 
-</RelativeLayout>
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ready_fragment"
+        android:name="com.kurume_nct.onthebounce.fragment.ReadyFragment"
+        tools:layout="@layout/fragment_ready"/>
+
+</LinearLayout>

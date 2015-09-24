@@ -1,19 +1,47 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.kurume_nct.onthebounce.R;
+import com.kurume_nct.onthebounce.fragment.TitleAndValueFragment;
 
 
 public class GameActivity extends ActionBarActivity {
+    TitleAndValueFragment round_fragment;
+    TitleAndValueFragment hp_fragment;
+
+    View.OnClickListener ready_listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //TODO:ready
+            Log.d("DEBUG", "READY");
+            //DEBUG:
+                Intent intent = new Intent(GameActivity.this, ResultActivity.class);
+                startActivity(intent);
+            //END
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        //Fragment init
+        FragmentManager manager = getSupportFragmentManager();
+        round_fragment = (TitleAndValueFragment)manager.findFragmentById(R.id.round_fragment);
+        hp_fragment = (TitleAndValueFragment)manager.findFragmentById(R.id.hp_fragment);
+        round_fragment.set("ROUND", "10");
+        hp_fragment.set("HP", "40");
+
+        //View init
+        findViewById(R.id.ready_button).setOnClickListener(ready_listener);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -11,8 +12,9 @@ import android.view.View;
 
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.fragment.CounterFragment;
+import com.kurume_nct.onthebounce.utility.MessageCallback;
 
-public class RoomActivity extends ActionBarActivity {
+public class RoomActivity extends ActionBarActivity implements MessageCallback{
     CounterFragment round_counter_fragment;
     CounterFragment hp_counter_fragment;
 
@@ -22,6 +24,9 @@ public class RoomActivity extends ActionBarActivity {
         public void onClick(View view) {
             //TODO:部屋の作成依頼
             Log.d("DEBUG", "Create Room");
+            //DEBUG
+                comeMessage("hogehoge");
+            //END
         }
     };
 
@@ -60,5 +65,15 @@ public class RoomActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //call back method
+    public void comeMessage(String json_text){
+        //TODO:convert json text to java object
+        Log.d("DEBUG", "convert json text");
+        //TODO:manage activity with json data
+        Log.d("DEBUG", "manage activity");
+        Intent intent = new Intent(RoomActivity.this, GameActivity.class);
+        startActivity(intent);
     }
 }

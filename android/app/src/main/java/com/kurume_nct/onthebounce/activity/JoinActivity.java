@@ -1,13 +1,17 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kurume_nct.onthebounce.R;
+import com.kurume_nct.onthebounce.utility.MessageCallback;
 
-public class JoinActivity extends ActionBarActivity {
+public class JoinActivity extends ActionBarActivity implements MessageCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +39,15 @@ public class JoinActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //call back method
+    public void comeMessage(String json_text){
+        //TODO:convert json text to java object
+        Log.d("DEBUG", "convert json text");
+        //TODO:manage activity with json data
+        Log.d("DEBUG", "manage activity");
+        Intent intent = new Intent(JoinActivity.this, GameActivity.class);
+        startActivity(intent);
     }
 }
