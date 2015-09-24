@@ -27,4 +27,18 @@
         android:id="@+id/hp_counter"
         android:name="com.kurume_nct.onthebounce.fragment.CounterFragment"
         tools:layout="@layout/fragment_counter"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_room_button"
+        android:text="部屋の作成"
+        />
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ready_fragment"
+        android:name="com.kurume_nct.onthebounce.fragment.ReadyFragment"
+        tools:layout="@layout/fragment_ready"/>
 </LinearLayout>

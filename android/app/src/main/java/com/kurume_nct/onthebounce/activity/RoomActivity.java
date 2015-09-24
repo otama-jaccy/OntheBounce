@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.fragment.CounterFragment;
@@ -15,17 +16,28 @@ public class RoomActivity extends ActionBarActivity {
     CounterFragment round_counter_fragment;
     CounterFragment hp_counter_fragment;
 
+    //create room botton's listener
+    View.OnClickListener create_room_listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //TODO:éƒ¨å±‹ã®ä½œæˆä¾é ¼
+            Log.d("DEBUG", "Create Room");
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-        //Fragment‚Ì‰Šúİ’è
+        //Fragment init
         FragmentManager manager = getSupportFragmentManager();
         this.round_counter_fragment = (CounterFragment)manager.findFragmentById(R.id.round_counter);
         this.round_counter_fragment.setValue("ROUND", 5);
         this.hp_counter_fragment = (CounterFragment)manager.findFragmentById(R.id.hp_counter);
         this.hp_counter_fragment.setValue("HP", 10);
 
+        //View init
+        findViewById(R.id.create_room_button).setOnClickListener(create_room_listener);
     }
 
     @Override

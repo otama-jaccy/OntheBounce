@@ -33,7 +33,6 @@ public class ConnectGun extends Fragment {
                 Log.d("DEBUG", "TODO connect gun");
             }
         });
-
     }
 
     @Override
