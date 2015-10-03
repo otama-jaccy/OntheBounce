@@ -10,6 +10,7 @@ import org.json.JSONException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,12 +51,14 @@ public class ServerConnection implements Runnable{
     }
 
     public void run(){
+        Log.d("DEBUG", "run");
         try {
             this.socket = new Socket(host_name, port);
         }catch(IOException e){
-            Log.d("ERROR", e.toString());
+            Log.d("DEBUG", e.toString());
             return;
         }
+        Log.d("DEBUG", "buffer");
         BufferedReader buffer = null;
         try {
             buffer = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
@@ -66,24 +69,41 @@ public class ServerConnection implements Runnable{
         while(true){
             String message = null;
             try {
+                Log.d("DEBUG", "message");
                 message = buffer.readLine();
+                Log.d("DEBUG", "come");
             }catch(IOException e){
-                Log.d("ERROR", e.toString());
+                Log.d("DEBUG", e.toString());
+                continue;
             }
-
             Log.d("DEBUG", message);
             JSONArray json = null;
             try {
                 json = new JSONArray(message);
             }catch(JSONException e){
                 Log.d("ERROR", e.toString());
+                continue;
             }
+            Log.d("DEBUG", json.toString());
 
             for(String key: this.callbacks.keySet()){
                 MessageCallback callback = this.callbacks.get(key);
                 callback.comeMessage(json);
             }
         }
+    }
+
+    public void send(String message){
+        OutputStreamWriter writer;
+        try {
+            writer = new OutputStreamWriter(socket.getOutputStream());
+            writer.write(message);
+            writer.flush();
+        }catch (IOException e){
+            Log.d("DEBUG", e.toString());
+            return;
+        }
+
     }
 
     public void closeConnection(){
