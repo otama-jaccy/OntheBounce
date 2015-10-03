@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 
+import org.json.JSONArray;
+
 public class JoinActivity extends ActionBarActivity implements MessageCallback{
 
     @Override
@@ -49,5 +51,9 @@ public class JoinActivity extends ActionBarActivity implements MessageCallback{
         Log.d("DEBUG", "manage activity");
         Intent intent = new Intent(JoinActivity.this, GameActivity.class);
         startActivity(intent);
+    }
+
+    public void comeMessage(JSONArray json){
+
     }
 }

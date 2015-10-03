@@ -21,7 +21,7 @@ import javax.security.auth.callback.Callback;
 
 /**
  * Created by minto on 2015/08/16.
- * arduinoとのシリアル送受信クラス
+ * arduino縺ｨ縺ｮ繧ｷ繝ｪ繧｢繝ｫ騾∝女菫｡繧ｯ繝ｩ繧ｹ
  */
 public class ArduinoCommunicator extends Thread{
     UsbManager manager;
@@ -43,7 +43,7 @@ public class ArduinoCommunicator extends Thread{
         return drivers.get(0);
     }
 
-    //permission取得を行ったらtrueを返す
+    //permission蜿門ｾ励ｒ陦後▲縺溘ｉtrue繧定ｿ斐☆
     public boolean requestPermission(){
         UsbSerialDriver driver = this.getDriver();
         if(driver==null){

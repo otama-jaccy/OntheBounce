@@ -31,8 +31,8 @@ public class ServerReceiver extends ReceiverAbstract implements Model{
     }
 
     /**
-     * ƒT[ƒo[‚©‚çƒf[ƒ^‚ğóM‚µ‚½‚çA
-     * callBacks‚É“o˜^‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚ÉƒƒbƒZ[ƒW‚ğ‘—‚é
+     * ã‚µãƒ¼ãƒãƒ¼ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å—ä¿¡ã—ãŸã‚‰ã€
+     * callBacksã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹
      */
     public void run(){
         while(true){

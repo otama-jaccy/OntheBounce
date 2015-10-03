@@ -14,6 +14,8 @@ import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.fragment.CounterFragment;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 
+import org.json.JSONArray;
+
 public class RoomActivity extends ActionBarActivity implements MessageCallback{
     CounterFragment round_counter_fragment;
     CounterFragment hp_counter_fragment;
@@ -75,5 +77,9 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         Log.d("DEBUG", "manage activity");
         Intent intent = new Intent(RoomActivity.this, GameActivity.class);
         startActivity(intent);
+    }
+
+    public void comeMessage(JSONArray json){
+
     }
 }

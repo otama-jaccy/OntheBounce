@@ -11,7 +11,6 @@ public class DialogCreater {
     public static AlertDialog.Builder createOnlyMessage(String message, Context context){
         AlertDialog.Builder alertDialog=new AlertDialog.Builder(context);
         alertDialog.setMessage(message);
-        //確認ボタンん処理を設定する
         alertDialog.setPositiveButton("OK",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int whichButton) {
                 //setResult(RESULT_OK);

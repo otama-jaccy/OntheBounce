@@ -16,14 +16,21 @@ import android.widget.TextView;
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.api.UDPPost;
 import com.kurume_nct.onthebounce.model.ArduinoCommunicator;
+import com.kurume_nct.onthebounce.model.ServerConnection;
 import com.kurume_nct.onthebounce.model.ServerPost;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
+
+import org.json.JSONArray;
 
 public class MainActivity extends ActionBarActivity implements MessageCallback{
     public void comeMessage(String message){
         TextView t = (TextView)findViewById(R.id.debug);
         t.setText(message);
         Log.d("DEBUG", message);
+    }
+
+    public void comeMessage(JSONArray json){
+
     }
 
     ArduinoCommunicator ard;
@@ -33,7 +40,6 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ard = new ArduinoCommunicator((UsbManager) getSystemService(Context.USB_SERVICE), this, this);
-
         //Button button = (Button)findViewById(R.id.create_room_button);
         /*button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,4 +100,6 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
