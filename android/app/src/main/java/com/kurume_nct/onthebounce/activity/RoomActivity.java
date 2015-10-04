@@ -16,14 +16,18 @@ import com.kurume_nct.onthebounce.model.ServerConnection;
 import com.kurume_nct.onthebounce.utility.Common;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 import com.kurume_nct.onthebounce.utility.ServerRequestMaker;
+import com.kurume_nct.onthebounce.utility.Setting;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RoomActivity extends ActionBarActivity implements MessageCallback{
     CounterFragment round_counter_fragment;
     CounterFragment hp_counter_fragment;
     Common common;
     ServerConnection server_connection;
+    final String ROOM_ACTIVITY = "ROOM_ACTIVITY";
 
     //create room botton's listener
     View.OnClickListener create_room_listener = new View.OnClickListener() {
@@ -57,7 +61,8 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         common.init();
 
         server_connection = ServerConnection.getInstance();
-
+        server_connection.addCallback(ROOM_ACTIVITY, this);
+        server_connection.connect(Setting.readIPAddress(this), 8000);
     }
 
     @Override
@@ -84,7 +89,7 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
 
     protected void onDestroy() {
         super.onDestroy();
-
+        server_connection.removeCallback(ROOM_ACTIVITY);
     }
 
     //call back method
@@ -97,7 +102,17 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         startActivity(intent);
     }
 
-    public void comeMessage(JSONArray json){
-
+    public void comeMessage(JSONObject json){
+        Log.d("DEBUG", "come message");
+        try {
+            String event = json.getString("event");
+            if(event=="session_id"){
+                common.session_id = json.getJSONObject("data").getInt("session_id");
+            }else if(event=="create_room"){
+                common.room_id = json.getJSONObject("data").getInt("room_id");
+            }
+        }catch (JSONException e){
+            Log.d("DEBUG", e.toString());
+        }
     }
 }

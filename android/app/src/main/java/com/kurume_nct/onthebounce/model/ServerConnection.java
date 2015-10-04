@@ -6,6 +6,7 @@ import com.kurume_nct.onthebounce.utility.MessageCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,9 +78,9 @@ public class ServerConnection implements Runnable{
                 continue;
             }
             Log.d("DEBUG", message);
-            JSONArray json = null;
+            JSONObject json = null;
             try {
-                json = new JSONArray(message);
+                json = new JSONObject(message);
             }catch(JSONException e){
                 Log.d("ERROR", e.toString());
                 continue;
