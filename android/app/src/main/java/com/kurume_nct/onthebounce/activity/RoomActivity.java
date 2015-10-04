@@ -12,13 +12,18 @@ import android.view.View;
 
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.fragment.CounterFragment;
+import com.kurume_nct.onthebounce.model.ServerConnection;
+import com.kurume_nct.onthebounce.utility.Common;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
+import com.kurume_nct.onthebounce.utility.ServerRequestMaker;
 
 import org.json.JSONArray;
 
 public class RoomActivity extends ActionBarActivity implements MessageCallback{
     CounterFragment round_counter_fragment;
     CounterFragment hp_counter_fragment;
+    Common common;
+    ServerConnection server_connection;
 
     //create room botton's listener
     View.OnClickListener create_room_listener = new View.OnClickListener() {
@@ -27,7 +32,9 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
             //TODO:部屋の作成依頼
             Log.d("DEBUG", "Create Room");
 
-
+            if(common.session_id==1){
+                return;
+            }
         }
     };
 
@@ -44,6 +51,13 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
 
         //View init
         findViewById(R.id.create_room_button).setOnClickListener(create_room_listener);
+
+        //global init
+        common = (Common)getApplication();
+        common.init();
+
+        server_connection = ServerConnection.getInstance();
+
     }
 
     @Override
@@ -66,6 +80,11 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     //call back method

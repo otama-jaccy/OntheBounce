@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ard = new ArduinoCommunicator((UsbManager) getSystemService(Context.USB_SERVICE), this, this);
+        //ard = new ArduinoCommunicator((UsbManager) getSystemService(Context.USB_SERVICE), this, this);
         //Button button = (Button)findViewById(R.id.create_room_button);
         /*button.setOnClickListener(new View.OnClickListener() {
             @Override

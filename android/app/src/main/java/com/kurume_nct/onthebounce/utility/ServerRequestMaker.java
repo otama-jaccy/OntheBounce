@@ -108,7 +108,7 @@ public class ServerRequestMaker {
 
             JSONObject data = new JSONObject();
             data.put(ATTACK_SESSION_ID, attack_session_id);
-            data.put(HITTED_SESSION_ID, hitted_session_id)
+            data.put(HITTED_SESSION_ID, hitted_session_id);
 
             request.put(DATA, data);
         }catch (JSONException e){
