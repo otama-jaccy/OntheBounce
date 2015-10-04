@@ -19,6 +19,7 @@ import com.kurume_nct.onthebounce.model.ArduinoCommunicator;
 import com.kurume_nct.onthebounce.model.ServerConnection;
 import com.kurume_nct.onthebounce.model.ServerPost;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
+import com.kurume_nct.onthebounce.utility.ServerRequestMaker;
 
 import org.json.JSONArray;
 
@@ -37,8 +38,9 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = new Intent(MainActivity.this, TestActivity.class);
-        startActivity(intent);
+        Log.d("DEBUG", ServerRequestMaker.createRoom(37, 10, 50));
+        /*Intent intent = new Intent(MainActivity.this, TestActivity.class);
+        startActivity(intent);*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -63,10 +65,6 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
         join_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                /*ServerPost post = ServerPost.getInstance();
-                post.setUDPPost("191.233.35.210", 8080);
-                post.addMessage("hogehogehogehoge");
-                post.send();*/
                 Intent intent = new Intent(MainActivity.this, JoinActivity.class);
                 startActivity(intent);
             }

@@ -26,9 +26,8 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         public void onClick(View view) {
             //TODO:部屋の作成依頼
             Log.d("DEBUG", "Create Room");
-            //DEBUG
-                comeMessage("hogehoge");
-            //END
+
+
         }
     };
 
