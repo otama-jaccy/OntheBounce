@@ -59,6 +59,7 @@ public class ServerConnection implements Runnable{
             Log.d("DEBUG", e.toString());
             return;
         }
+        callBackMessage("connected");
         Log.d("DEBUG", "buffer");
         BufferedReader buffer = null;
         try {
@@ -104,7 +105,13 @@ public class ServerConnection implements Runnable{
             Log.d("DEBUG", e.toString());
             return;
         }
+    }
 
+    private void callBackMessage(String message){
+        for(String key: this.callbacks.keySet()){
+            MessageCallback callback = this.callbacks.get(key);
+            callback.comeMessage(message);
+        }
     }
 
     public void closeConnection(){

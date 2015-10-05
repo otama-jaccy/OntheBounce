@@ -22,6 +22,7 @@ import com.kurume_nct.onthebounce.utility.MessageCallback;
 import com.kurume_nct.onthebounce.utility.ServerRequestMaker;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity implements MessageCallback{
     public void comeMessage(String message){
@@ -30,7 +31,7 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
         Log.d("DEBUG", message);
     }
 
-    public void comeMessage(JSONArray json){
+    public void comeMessage(JSONObject json){
 
     }
 
@@ -38,7 +39,6 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("DEBUG", ServerRequestMaker.createRoom(37, 10, 50));
         /*Intent intent = new Intent(MainActivity.this, TestActivity.class);
         startActivity(intent);*/
 

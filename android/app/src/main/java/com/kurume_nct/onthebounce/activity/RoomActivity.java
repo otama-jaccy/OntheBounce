@@ -25,6 +25,7 @@ import org.json.JSONObject;
 public class RoomActivity extends ActionBarActivity implements MessageCallback{
     CounterFragment round_counter_fragment;
     CounterFragment hp_counter_fragment;
+    CounterFragment user_counter_fragment;
     Common common;
     ServerConnection server_connection;
     final String ROOM_ACTIVITY = "ROOM_ACTIVITY";
@@ -36,9 +37,15 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
             //TODO:部屋の作成依頼
             Log.d("DEBUG", "Create Room");
 
-            if(common.session_id==1){
+            if(common.session_id==null){
                 return;
             }
+
+            int round = round_counter_fragment.getCount();
+            int user_count = user_counter_fragment.getCount();
+            int hit_point = hp_counter_fragment.getCount();
+            String request = ServerRequestMaker.createRoom(common.session_id ,round, user_count, hit_point);
+            server_connection.send(request);
         }
     };
 
@@ -52,6 +59,8 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         this.round_counter_fragment.setValue("ROUND", 5);
         this.hp_counter_fragment = (CounterFragment)manager.findFragmentById(R.id.hp_counter);
         this.hp_counter_fragment.setValue("HP", 10);
+        this.user_counter_fragment = (CounterFragment)manager.findFragmentById(R.id.user_counter);
+        this.user_counter_fragment.setValue("USER", 2);
 
         //View init
         findViewById(R.id.create_room_button).setOnClickListener(create_room_listener);
@@ -62,7 +71,7 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
 
         server_connection = ServerConnection.getInstance();
         server_connection.addCallback(ROOM_ACTIVITY, this);
-        server_connection.connect(Setting.readIPAddress(this), 8000);
+        server_connection.connect(Setting.readIPAddress(this), 8080);
     }
 
     @Override
@@ -93,23 +102,30 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
     }
 
     //call back method
-    public void comeMessage(String json_text){
-        //TODO:convert json text to java object
-        Log.d("DEBUG", "convert json text");
-        //TODO:manage activity with json data
-        Log.d("DEBUG", "manage activity");
-        Intent intent = new Intent(RoomActivity.this, GameActivity.class);
-        startActivity(intent);
+    public void comeMessage(String message){
+        if(message=="connected"){
+            String request = ServerRequestMaker.sessionID();
+            server_connection.send(request);
+        }
     }
 
     public void comeMessage(JSONObject json){
         Log.d("DEBUG", "come message");
         try {
             String event = json.getString("event");
-            if(event=="session_id"){
-                common.session_id = json.getJSONObject("data").getInt("session_id");
-            }else if(event=="create_room"){
-                common.room_id = json.getJSONObject("data").getInt("room_id");
+            Log.d("DEBUG", "event="+event);
+            Log.d("DEBUG", "eventLength="+event.length());
+            if(event.equals("session_id")){
+                Log.d("DEBUG", "event is session_id");
+                String session_id = json.getJSONObject("data").getString("session_id");
+                Log.d("DEBUG", "session_id="+session_id);
+                common.session_id = session_id;
+            }else if(event.equals("create_room")){
+                String room_id = json.getJSONObject("data").getString("room_id");
+                Log.d("DEBUG", "room_id="+room_id);
+                common.room_id = room_id;
+            }else{
+                Log.d("DEBUG", "nothing event:"+event);
             }
         }catch (JSONException e){
             Log.d("DEBUG", e.toString());

@@ -25,6 +25,7 @@ public class ServerRequestMaker {
     static final String HITTED_SESSION_ID = "hitted_session_id";
     static final String USER_DEAD = "user_dead";
     static final String RESULT = "result";
+    static final String USER_COUNT = "user_count";
 
     static public String sessionID(){
         JSONObject request = new JSONObject();
@@ -37,7 +38,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String createRoom(int session_id, int round, int hit_point){
+    static public String createRoom(String session_id, int round,int user_count, int hit_point){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, CREATE_ROOM);
@@ -46,6 +47,7 @@ public class ServerRequestMaker {
             data.put(SESSION_ID, session_id);
             data.put(ROUND, round);
             data.put(HIT_POINT, hit_point);
+            data.put(USER_COUNT, user_count);
 
             request.put(DATA, data);
         }catch (JSONException e){
@@ -54,7 +56,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String join_room(int session_id, int room_id){
+    static public String join_room(String session_id, String room_id){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, JOIN_ROOM);
@@ -70,7 +72,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String users(int session_id, int room_id){
+    static public String users(String session_id, String room_id){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, USERS);
@@ -86,7 +88,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String user_ready(int session_id){
+    static public String user_ready(String session_id){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, USER_READY);
@@ -101,7 +103,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String hitted(int attack_session_id, int hitted_session_id){
+    static public String hitted(String attack_session_id, String hitted_session_id){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, HITTED);
@@ -117,7 +119,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String user_dead(int session_id){
+    static public String user_dead(String session_id){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, USER_DEAD);
@@ -132,7 +134,7 @@ public class ServerRequestMaker {
         return request.toString();
     }
 
-    static public String result(int session_id){
+    static public String result(String session_id){
         JSONObject request = new JSONObject();
         try{
             request.put(EVENT, RESULT);

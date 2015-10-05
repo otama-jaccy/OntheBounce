@@ -12,6 +12,7 @@ import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class JoinActivity extends ActionBarActivity implements MessageCallback{
 
@@ -53,7 +54,7 @@ public class JoinActivity extends ActionBarActivity implements MessageCallback{
         startActivity(intent);
     }
 
-    public void comeMessage(JSONArray json){
+    public void comeMessage(JSONObject json){
 
     }
 }
