@@ -31,11 +31,13 @@ public class ArduinoCommunicator extends Thread{
     Context context;
     UsbDeviceConnection connection;
     UsbSerialPort port;
+    String message;
 
     public ArduinoCommunicator(UsbManager manager, MessageCallback messageCallback, Context context){
         this.manager = manager;
         this.callback = messageCallback;
         this.context = context;
+        this.message = "";
     }
 
     private UsbSerialDriver getDriver(){
@@ -48,6 +50,11 @@ public class ArduinoCommunicator extends Thread{
 
     //permission取得を行ったらtrueを返す
     public boolean requestPermission(){
+        this.driver = getDriver();
+        if(manager.hasPermission(this.driver.getDevice())){
+            return false;
+        }
+
         UsbSerialDriver driver = this.getDriver();
         if(driver==null){
             return false;
@@ -68,37 +75,15 @@ public class ArduinoCommunicator extends Thread{
         }
     }
 
-    private final SerialInputOutputManager.Listener mListener =
-            new SerialInputOutputManager.Listener() {
-
-                @Override
-                public void onRunError(Exception e) {
-
-                    try {
-                        port.close();
-                    } catch (IOException e1) {
-                    }
-                }
-
-                public void onNewData(final byte[] data) {
-                    updateReceivedData(data);
-                }
-            };
-
     public void run(){
         if(this.driver == null) {
             this.driver = getDriver();
-        }
-        if(!this.manager.hasPermission(this.driver.getDevice())){
-            Log.d("DEBUG", "requestPermission");
-            requestPermission();
-            return;
         }
         connection = manager.openDevice(driver.getDevice());
         port = driver.getPorts().get(0);
         try {
             port.open(connection);
-            port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+            port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
         }catch (IOException e){
             Log.e("ERROR", e.toString());
             return;
@@ -119,9 +104,8 @@ public class ArduinoCommunicator extends Thread{
                 continue;
             }
             Log.d("DEBUG", "Arduino Message");
-            String message = new String(buffer, 0, num);
-            Log.d("DEBUG", ""+message);
-            callback.comeMessage(message);
+
+            callback.comeMessage(new String(buffer, 0, num));
         }
     }
 }

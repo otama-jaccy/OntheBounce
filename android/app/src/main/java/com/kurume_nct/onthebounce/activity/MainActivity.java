@@ -39,7 +39,7 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Intent intent = new Intent(MainActivity.this, TestActivity.class);
+        //Intent intent = new Intent(MainActivity.this, GameActivity.class);
         //startActivity(intent);
 
         super.onCreate(savedInstanceState);

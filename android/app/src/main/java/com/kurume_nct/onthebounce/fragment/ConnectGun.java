@@ -44,7 +44,7 @@ public class ConnectGun extends Fragment implements MessageCallback{
             public void onClick(View v) {
                 //TODO　銃との接続処理
                 Log.d("DEBUG", "TODO connect gun");
-                if(!communicator.isAlive()) {
+                if(!communicator.requestPermission() && !communicator.isAlive()){
                     communicator.start();
                 }
             }
@@ -56,8 +56,8 @@ public class ConnectGun extends Fragment implements MessageCallback{
         super.onPause();
     }
 
-    public void comeMessage(String java){
-
+    public void comeMessage(String message){
+        Log.d("DEBUG", message);
     }
 
     public void comeMessage(JSONObject json){
