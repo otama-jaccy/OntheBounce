@@ -1,5 +1,6 @@
 package com.kurume_nct.onthebounce.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,11 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.hardware.usb.*;
 
+import com.hoho.android.usbserial.driver.UsbSerialDriver;
+import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.model.ServerConnection;
 
-public class TestActivity extends AppCompatActivity {
+import org.shokai.firmata.ArduinoFirmata;
+
+import java.io.IOException;
+
+public class TestActivity extends AppCompatActivity implements Runnable{
 
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -60,5 +68,8 @@ public class TestActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void run(){
     }
 }

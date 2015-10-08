@@ -23,5 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile files('libs/physicaloidlibrary.jar')
+    compile files('libs/arduino-firmata.jar')
     compile project(':libraries:usb-serial-for-android:usbSerialForAndroid')
 }

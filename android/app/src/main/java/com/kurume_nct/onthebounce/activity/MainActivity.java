@@ -39,8 +39,8 @@ public class MainActivity extends ActionBarActivity implements MessageCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*Intent intent = new Intent(MainActivity.this, TestActivity.class);
-        startActivity(intent);*/
+        //Intent intent = new Intent(MainActivity.this, TestActivity.class);
+        //startActivity(intent);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

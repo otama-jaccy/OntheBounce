@@ -2,6 +2,7 @@ package com.kurume_nct.onthebounce.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class JoinActivity extends ActionBarActivity implements MessageCallback{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

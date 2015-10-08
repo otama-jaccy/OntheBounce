@@ -14,7 +14,8 @@ public class Common extends Application{
 
     public void init(){
         session_id = null;
-        room_id = null;
+        //TODO: WIFI DIRECT
+        room_id = "114514";
         user_count = -1;
         hit_point = -1;
         round = -1;

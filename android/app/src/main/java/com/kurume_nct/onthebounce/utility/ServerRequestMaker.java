@@ -148,4 +148,24 @@ public class ServerRequestMaker {
         }
         return request.toString();
     }
+
+    static final String SETTING_ROOM = "setting_room";
+    static public String setting_room(String session_id, String room_id, int round, int hit_point, int user_count){
+        JSONObject request = new JSONObject();
+        try{
+            request.put(EVENT, SETTING_ROOM);
+
+            JSONObject data = new JSONObject();
+            data.put(SESSION_ID, session_id);
+            data.put(ROOM_ID, room_id);
+            data.put(ROUND, round);
+            data.put(HIT_POINT, hit_point);
+            data.put(USER_COUNT, user_count);
+
+            request.put(DATA, data);
+        }catch (JSONException e){
+            Log.d("DEBUG", e.toString());
+        }
+        return request.toString();
+    }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.fragment.CounterFragment;
@@ -36,15 +37,14 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         public void onClick(View view) {
             //TODO:部屋の作成依頼
             Log.d("DEBUG", "Create Room");
-
             if(common.session_id==null){
                 return;
             }
 
-            int round = round_counter_fragment.getCount();
-            int user_count = user_counter_fragment.getCount();
-            int hit_point = hp_counter_fragment.getCount();
-            String request = ServerRequestMaker.createRoom(common.session_id ,round, user_count, hit_point);
+            common.round = round_counter_fragment.getCount();
+            common.user_count = user_counter_fragment.getCount();
+            common.hit_point = hp_counter_fragment.getCount();
+            String request = ServerRequestMaker.createRoom(common.session_id ,common.round, common.user_count, common.hit_point);
             server_connection.send(request);
         }
     };
@@ -109,14 +109,12 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         }
     }
 
-    public void comeMessage(JSONObject json){
+    public void comeMessage(JSONObject json) {
         Log.d("DEBUG", "come message");
         try {
             String event = json.getString("event");
             Log.d("DEBUG", "event="+event);
-            Log.d("DEBUG", "eventLength="+event.length());
             if(event.equals("session_id")){
-                Log.d("DEBUG", "event is session_id");
                 String session_id = json.getJSONObject("data").getString("session_id");
                 Log.d("DEBUG", "session_id="+session_id);
                 common.session_id = session_id;
@@ -124,6 +122,13 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
                 String room_id = json.getJSONObject("data").getString("room_id");
                 Log.d("DEBUG", "room_id="+room_id);
                 common.room_id = room_id;
+
+                //TODO: WIFI DIRECT
+                String request = ServerRequestMaker.setting_room(common.session_id, common.room_id, common.round, common.hit_point, common.user_count);
+                server_connection.send(request);
+            }else if(event.equals("setting_room")){
+                String request = ServerRequestMaker.join_room(common.session_id, common.room_id);
+                server_connection.send(request);
             }else{
                 Log.d("DEBUG", "nothing event:"+event);
             }

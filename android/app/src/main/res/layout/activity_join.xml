@@ -8,7 +8,7 @@
     tools:context="com.kurume_nct.onthebounce.activity.JoinActivity">
 
     <fragment
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/connect_gun"
         android:name="com.kurume_nct.onthebounce.fragment.ConnectGun"
@@ -16,7 +16,7 @@
         />
 
     <fragment
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ready_fragment"
         android:name="com.kurume_nct.onthebounce.fragment.ReadyFragment"
