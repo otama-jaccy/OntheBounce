@@ -15,6 +15,8 @@ import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.fragment.CounterFragment;
 import com.kurume_nct.onthebounce.model.ServerConnection;
 import com.kurume_nct.onthebounce.utility.Common;
+import com.kurume_nct.onthebounce.utility.GameDataTag;
+import com.kurume_nct.onthebounce.utility.GameEvent;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 import com.kurume_nct.onthebounce.utility.ServerRequestMaker;
 import com.kurume_nct.onthebounce.utility.Setting;
@@ -96,14 +98,19 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        server_connection.removeCallback(ROOM_ACTIVITY);
+    }
+
     protected void onDestroy() {
         super.onDestroy();
-        server_connection.removeCallback(ROOM_ACTIVITY);
     }
 
     //call back method
     public void comeMessage(String message){
-        if(message=="connected"){
+        if(message.equals("connected")){
             String request = ServerRequestMaker.sessionID();
             server_connection.send(request);
         }
@@ -132,6 +139,12 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
             }else if(event.equals("game_start")){
                 Intent intent = new Intent(RoomActivity.this, GameActivity.class);
                 startActivity(intent);
+            }else if(event.equals(GameEvent.JOIN_ROOM)){
+                JSONObject data = json.getJSONObject("data");
+                common.round = data.getInt(GameDataTag.ROUND);
+                common.hit_point = data.getInt(GameDataTag.HIT_POINT);
+                common.user_count = data.getInt(GameDataTag.USER_COUNT);
+                common.team_id = data.getInt(GameDataTag.TEAM_ID);
             }else{
                 Log.d("DEBUG", "nothing event:"+event);
             }

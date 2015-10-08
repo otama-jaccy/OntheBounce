@@ -28,4 +28,11 @@
         android:text="準備完了"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dead_button"
+        android:text="自害"
+        />
+
 </LinearLayout>

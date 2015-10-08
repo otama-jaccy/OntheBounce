@@ -17,7 +17,7 @@ public class ServerRequestMaker {
     static final String ROUND = "round";
     static final String HIT_POINT = "hit_point";
     static final String JOIN_ROOM = "join_room";
-    static final String ROOM_ID = "ROOM_ID";
+    static final String ROOM_ID = "room_id";
     static final String USERS = "users";
     static final String USER_READY = "user_ready";
     static final String HITTED = "hitted";

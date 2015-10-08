@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.kurume_nct.onthebounce.R;
 import com.kurume_nct.onthebounce.model.ServerConnection;
+import com.kurume_nct.onthebounce.utility.Common;
+import com.kurume_nct.onthebounce.utility.GameDataTag;
 import com.kurume_nct.onthebounce.utility.GameEvent;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
+import com.kurume_nct.onthebounce.utility.ServerRequestMaker;
+import com.kurume_nct.onthebounce.utility.Setting;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,12 +26,28 @@ import org.json.JSONObject;
 public class JoinActivity extends ActionBarActivity implements MessageCallback{
     static final String JOIN_ACTIVITY = "join_activity";
     ServerConnection server_connection = ServerConnection.getInstance();
+    Common common;
+
+    View.OnClickListener connect_listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String request = ServerRequestMaker.join_room(common.session_id, common.room_id);
+            server_connection.send(request);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+
+        findViewById(R.id.join_room_button).setOnClickListener(connect_listener);
+
+        server_connection.connect(Setting.readIPAddress(this), 8080);
         server_connection.addCallback(JOIN_ACTIVITY, this);
+
+        common = (Common)getApplication();
+        common.init();
     }
 
     @Override
@@ -51,14 +72,18 @@ public class JoinActivity extends ActionBarActivity implements MessageCallback{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        server_connection.removeCallback(JOIN_ACTIVITY);
+    }
+
     //call back method
-    public void comeMessage(String json_text){
-        //TODO:convert json text to java object
-        Log.d("DEBUG", "convert json text");
-        //TODO:manage activity with json data
-        Log.d("DEBUG", "manage activity");
-        Intent intent = new Intent(JoinActivity.this, GameActivity.class);
-        startActivity(intent);
+    public void comeMessage(String message){
+        if(message.equals("connected")){
+            String request = ServerRequestMaker.sessionID();
+            server_connection.send(request);
+        }
     }
 
     public void comeMessage(JSONObject json){
@@ -69,6 +94,15 @@ public class JoinActivity extends ActionBarActivity implements MessageCallback{
             if(event.equals(GameEvent.GAME_START)){
                 Intent intent = new Intent(JoinActivity.this, GameActivity.class);
                 startActivity(intent);
+            }
+            if(event.equals(GameEvent.SESSION_ID)){
+                common.session_id = data.getString(GameDataTag.SESSION_ID);
+            }
+            if(event.equals(GameEvent.JOIN_ROOM)){
+                common.round = data.getInt(GameDataTag.ROUND);
+                common.hit_point = data.getInt(GameDataTag.HIT_POINT);
+                common.user_count = data.getInt(GameDataTag.USER_COUNT);
+                common.team_id = data.getInt(GameDataTag.TEAM_ID);
             }
         }catch(JSONException e){
 

@@ -11,6 +11,9 @@ public class Common extends Application{
     public int user_count;
     public int hit_point;
     public int round;
+    public int team_id;
+    //撃った回数
+    public int shot_count;
 
     public void init(){
         session_id = null;
@@ -19,5 +22,7 @@ public class Common extends Application{
         user_count = -1;
         hit_point = -1;
         round = -1;
+        team_id = -1;
+        shot_count = 0;
     }
 }

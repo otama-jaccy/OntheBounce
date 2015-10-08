@@ -96,7 +96,15 @@ public class ServerConnection implements Runnable{
     }
 
     public void send(String message){
+        Log.d("DEBUG", "send message:"+message);
         OutputStreamWriter writer;
+        if(socket==null){
+            try {
+                this.socket = new Socket(host_name, port);
+            }catch (IOException e){
+                return;
+            }
+        }
         try {
             writer = new OutputStreamWriter(socket.getOutputStream());
             writer.write(message);
