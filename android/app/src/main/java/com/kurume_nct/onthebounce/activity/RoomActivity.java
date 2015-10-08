@@ -129,6 +129,9 @@ public class RoomActivity extends ActionBarActivity implements MessageCallback{
             }else if(event.equals("setting_room")){
                 String request = ServerRequestMaker.join_room(common.session_id, common.room_id);
                 server_connection.send(request);
+            }else if(event.equals("game_start")){
+                Intent intent = new Intent(RoomActivity.this, GameActivity.class);
+                startActivity(intent);
             }else{
                 Log.d("DEBUG", "nothing event:"+event);
             }

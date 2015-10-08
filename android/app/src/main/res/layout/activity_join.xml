@@ -15,6 +15,13 @@
         tools:layout="@layout/fragment_connect_gun"
         />
 
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="fill_content"
+        android:id="@+id/join_room"
+        android:text="接続"
+        />
+
     <fragment
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

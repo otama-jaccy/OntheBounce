@@ -10,18 +10,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kurume_nct.onthebounce.R;
+import com.kurume_nct.onthebounce.model.ServerConnection;
+import com.kurume_nct.onthebounce.utility.GameEvent;
 import com.kurume_nct.onthebounce.utility.MessageCallback;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JoinActivity extends ActionBarActivity implements MessageCallback{
-
+    static final String JOIN_ACTIVITY = "join_activity";
+    ServerConnection server_connection = ServerConnection.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+        server_connection.addCallback(JOIN_ACTIVITY, this);
     }
 
     @Override
@@ -57,6 +62,16 @@ public class JoinActivity extends ActionBarActivity implements MessageCallback{
     }
 
     public void comeMessage(JSONObject json){
+        try{
+            String event = json.getString("event");
+            JSONObject data = json.getJSONObject("data");
 
+            if(event.equals(GameEvent.GAME_START)){
+                Intent intent = new Intent(JoinActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        }catch(JSONException e){
+
+        }
     }
 }
